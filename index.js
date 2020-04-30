@@ -143,7 +143,11 @@ async function main () {
 
   while (true) {
     const ts = Date.now()
-    await client.update()
+    try {
+      await client.update()
+    } catch (err) {
+      logger.error(String(err.stack || err))
+    }
     const delay = Math.max(10, args.interval - (Date.now() - ts))
     await new Promise((resolve) => setTimeout(resolve, delay))
   }
